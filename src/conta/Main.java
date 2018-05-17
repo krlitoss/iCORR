@@ -10,7 +10,7 @@ import com.cfdi.exceptions.myXmlParsingException;
 /**
  * Clase que genera pruebas
  *
- */
+ *//////
 public class Main {
 
 	public static void main(String[] args){
