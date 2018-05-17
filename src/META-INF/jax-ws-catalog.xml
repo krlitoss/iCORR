@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl" uri="wsdl/demo-facturacion.finkok.com/servicios/soap/stamp.wsdl"/>
+    <system systemId="https://facturacion.finkok.com/servicios/soap/stamp.wsdl" uri="wsdl/facturacion.finkok.com/servicios/soap/stamp.wsdl"/>
+</catalog>

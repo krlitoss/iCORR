@@ -1,0 +1,7 @@
+3.3.xslt				Para generar cadena original del CFDI Fuente: SAT
+ACO560518KW7.cer		CSD de pruebas
+ACO560518KW7.key		CSD de pruebas
+33.png					Imagen de fondo para los PDF
+I33.png					Imagen de fondo para los PDF de documentos de tipo Ingresos o Egresos
+P33.png					Imagen de fondo para los PDF de documentos de tipo Pago
+timbre33.xslt			Generacion de cadena original del timbre (No utilizado por el momento) Fuente: SAT

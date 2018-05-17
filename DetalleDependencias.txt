@@ -1,0 +1,10 @@
+itextpdf-5.5.6.jar  					Para construccion de PDF's
+xmlworker-5.5.6.jar  					Para manejo de XML's
+xercesImpl.jar							Para manejo de XML's
+xml-apis-1.4.01.jar						Para manejo de XML's
+bcpkix-jdk15on-152.jar					Criptografia Bouncycastle sellado
+bcprov-ext-jdk15on-152.jar				Criptografia Bouncycastle sellado
+bcprov-jdk15on-152.jar					Criptografia Bouncycastle sellado
+not-yet-commons-ssl-0.3.11.jar			Criptografia Apache manejo de certificados
+joda-time-2.4.jar						Manejo de fechas
+zxing.jar								Para generacion de codigos QR

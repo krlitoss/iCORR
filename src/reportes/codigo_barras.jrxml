@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="codigo_barras" language="groovy" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<style name="Title" isDefault="false" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" isDefault="false" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" isDefault="false" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" isDefault="false" fontName="Arial" fontSize="12"/>
+	<style name="Row" isDefault="false" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style isDefault="false" style="Row" backcolor="#EAF0F2"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logoempresa" class="java.io.InputStream"/>
+	<parameter name="subtitulo" class="java.lang.String"/>
+	<parameter name="fechaini" class="java.sql.Timestamp"/>
+	<parameter name="fechafin" class="java.sql.Timestamp"/>
+	<parameter name="version" class="java.lang.String"/>
+	<parameter name="ordencompra" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="linea" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="codigo" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="diseno" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="cantidad" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="oc" class="java.io.InputStream"/>
+	<parameter name="li" class="java.io.InputStream"/>
+	<parameter name="co" class="java.io.InputStream"/>
+	<parameter name="ca" class="java.io.InputStream"/>
+	<parameter name="di" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Right" isUsingCache="false">
+				<reportElement x="391" y="4" width="181" height="61"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logoempresa}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="4" width="391" height="45" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="1" y="49" width="390" height="16" forecolor="#666666"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{subtitulo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="2" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="66" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="4" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="650" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-7" x="1" y="2" width="571" height="22"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["NUMERO DE ORDEN: " + $P{ordencompra}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement key="image-3" x="26" y="27" width="520" height="83"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+				</graphicElement>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{oc}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-11" x="1" y="530" width="571" height="22"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["CANTIDAD: "+$P{cantidad}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement key="image-7" x="25" y="555" width="520" height="83"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{ca}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-9" x="1" y="263" width="571" height="22"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["CODIGO DE PRODUCTO: "+$P{codigo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-8" x="0" y="130" width="572" height="22"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["NUMERO DE LINEA: "+$P{linea}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-10" x="0" y="397" width="572" height="22"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["DISEÑO: "+$P{diseno}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement key="image-6" x="25" y="422" width="520" height="83"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{di}]]></imageExpression>
+			</image>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement key="image-5" x="25" y="288" width="520" height="83"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{co}]]></imageExpression>
+			</image>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement key="image-4" x="25" y="155" width="520" height="83"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{li}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="572" height="16" forecolor="#D0B48E" backcolor="#EFF0F1"/>
+				<textField>
+					<reportElement style="Detail" x="203" y="3" width="147" height="11" forecolor="#666666"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" size="5" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{version}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>

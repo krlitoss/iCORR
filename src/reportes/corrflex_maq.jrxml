@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="corrflex2" language="groovy" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<style name="Title" isDefault="false" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" isDefault="false" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" isDefault="false" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" isDefault="false" fontName="Arial" fontSize="12"/>
+	<style name="Row" isDefault="false" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style isDefault="false" style="Row" backcolor="#EAF0F2"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logoempresa" class="java.io.InputStream"/>
+	<parameter name="subtitulo" class="java.lang.String"/>
+	<parameter name="fechaini" class="java.sql.Timestamp"/>
+	<parameter name="fechafin" class="java.sql.Timestamp"/>
+	<parameter name="version" class="java.lang.String"/>
+	<parameter name="clavemaq" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	programa_conversion.id_programa_conversion,
+
+	programa_conversion.id_numero,
+	programa_conversion.op,
+	programa_conversion.clavearticulo,
+	programa_conversion.fechaproduccion AS fechaprogram,
+	programa_conversion.cantidad AS programcantidad,
+	programa_conversion.cantidadpiezas AS programcantidadpiezas,
+	(
+		programa_conversion.cantidadpiezas * articulos.kg
+	) AS programcantkgpiezas,
+	COALESCE (prodcorr.prodcantidadpiezas,0) AS prodcantidadpiezas,
+	COALESCE (prodconver.prodcantidadpiezas,0) AS prodcantidadpiezascon,
+	programa_conversion.imprimir,
+	ops.op,
+
+	ops.fechaentrega,
+	ops.maquila,
+	ops.cantidad,
+	(
+		ops.cantidad / articulos.piezas
+	) AS laminaspedidas,
+	articulos.articulo,
+	articulos.claveresistencia,
+	articulos.kg,
+	articulos.m2,
+	articulos.piezas,
+	clientes.nombre,
+	programa_conversion.clavemaquina,
+	articulos_maquinas.clave,
+	programa_conversion.arreglo,
+	(
+		programa_conversion.cantidad / programa_conversion.velocidad
+	) AS tiempo,
+	programa_conversion.velocidad,
+	maquinas.unidadcapacidad,
+	maquinas.descripcion,
+	maquinas.unidadvelocidad
+FROM
+	(
+		(
+			(
+				programa_conversion
+				LEFT JOIN ops ON programa_conversion.op = ops.op
+			)
+			LEFT JOIN (
+				articulos
+				LEFT JOIN clientes ON articulos.id_clientes = clientes.id_clientes
+			) ON programa_conversion.clavearticulo = articulos.clavearticulo
+		)
+		LEFT JOIN articulos_maquinas ON (
+			programa_conversion.clavearticulo = articulos_maquinas.clavearticulo
+			AND programa_conversion.clavemaquina = articulos_maquinas.clave
+		)
+
+	)
+LEFT JOIN maquinas ON programa_conversion.clavemaquina = maquinas.clave
+
+/*************************/
+
+LEFT JOIN (
+	SELECT
+		conversion_captura.op,
+		MAX ( conversion_captura.fechareal) AS fechaprod,
+		SUM (conversion_captura.prodml) AS prodml,
+		SUM (conversion_captura.cantidad) AS prodcantidad,
+		SUM (conversion_captura.cantidadpiezas) AS prodcantidadpiezas,
+		SUM (conversion_captura.cantidadpiezas * articulos.kg) AS prodcantkgpiezas
+
+FROM
+		conversion_captura
+	LEFT JOIN articulos ON conversion_captura.clavearticulo = articulos.clavearticulo
+
+WHERE
+		(conversion_captura.clave = 'CORR'AND conversion_captura.estatus <> 'Can')
+
+GROUP BY
+		conversion_captura.op ) AS prodcorr ON ops.op = prodcorr.op
+
+/****************************************************/
+
+
+LEFT JOIN (SELECT conversion_captura.op,
+
+		SUM (conversion_captura.cantidadpiezas) AS prodcantidadpiezas
+
+	FROM
+		conversion_captura
+
+	WHERE
+		(conversion_captura.clave IN  ('TCY', 'COM', 'MACARB', 'S&S')   AND conversion_captura.estatus <> 'Can')
+	GROUP BY
+		conversion_captura.op ) AS prodconver ON ops.op = prodconver.op
+
+/**************************************************/
+
+
+
+
+
+WHERE
+	(
+		programa_conversion.estatus = 'Act'
+		AND programa_conversion.imprimir = 'true'
+		AND programa_conversion.clavemaquina = $P{clavemaq}
+
+
+			)
+ORDER BY
+	maquinas.id_maquina,
+	programa_conversion.fechaproduccion,
+	programa_conversion.id_numero;]]>
+	</queryString>
+	<field name="id_programa_conversion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="op" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clavearticulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaprogram" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="programcantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="programcantidadpiezas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="programcantkgpiezas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodcantidadpiezas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodcantidadpiezascon" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imprimir" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaentrega" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="maquila" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="laminaspedidas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="articulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="claveresistencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kg" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="m2" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="piezas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clavemaquina" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="arreglo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tiempo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="velocidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unidadcapacidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unidadvelocidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="sumacantidad" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Sum">
+		<variableExpression><![CDATA[$F{programcantidad}]]></variableExpression>
+	</variable>
+	<variable name="avgarreglo" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Average">
+		<variableExpression><![CDATA[$F{arreglo}]]></variableExpression>
+	</variable>
+	<variable name="avgvelocidad" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Average">
+		<variableExpression><![CDATA[$F{velocidad}]]></variableExpression>
+	</variable>
+	<variable name="sumaarreglo" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Sum">
+		<variableExpression><![CDATA[$F{arreglo}]]></variableExpression>
+	</variable>
+	<variable name="sumatiempo" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Sum">
+		<variableExpression><![CDATA[$F{tiempo}]]></variableExpression>
+	</variable>
+	<variable name="sumakg" class="java.lang.Double" resetType="Group" resetGroup="fechaprogram" calculation="Sum">
+		<variableExpression><![CDATA[$F{programcantkgpiezas}]]></variableExpression>
+	</variable>
+	<variable name="sumacantidadt" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Sum">
+		<variableExpression><![CDATA[$F{programcantidad}]]></variableExpression>
+	</variable>
+	<variable name="avgarreglot" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Average">
+		<variableExpression><![CDATA[$F{arreglo}]]></variableExpression>
+	</variable>
+	<variable name="avgvelocidadt" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Average">
+		<variableExpression><![CDATA[$F{velocidad}]]></variableExpression>
+	</variable>
+	<variable name="sumaarreglot" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Sum">
+		<variableExpression><![CDATA[$F{arreglo}]]></variableExpression>
+	</variable>
+	<variable name="sumatiempot" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Sum">
+		<variableExpression><![CDATA[$F{tiempo}]]></variableExpression>
+	</variable>
+	<variable name="sumakgt" class="java.lang.Double" resetType="Group" resetGroup="clavemaquina" calculation="Sum">
+		<variableExpression><![CDATA[$F{programcantkgpiezas}]]></variableExpression>
+	</variable>
+	<group name="clavemaquina">
+		<groupExpression><![CDATA[$F{clavemaquina}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="7" width="572" height="19" forecolor="#B89F7D" backcolor="#AFD0E0"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="6" width="9" height="8" forecolor="#FFFFFF" backcolor="#006699"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="48" y="0" width="63" height="18" forecolor="#006699"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="Arial" size="9" isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{clavemaquina}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="111" y="0" width="282" height="18" forecolor="#006699"/>
+						<textElement textAlignment="Left" verticalAlignment="Middle">
+							<font fontName="Arial" size="8" isBold="false"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{descripcion}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="SubTitle" x="407" y="1" width="45" height="18" forecolor="#006699"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="Arial" size="8" isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{unidadcapacidad}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<textField pattern="#,##0">
+					<reportElement x="393" y="1" width="35" height="13"/>
+					<box rightPadding="1">
+						<pen lineColor="#999999"/>
+						<topPen lineColor="#999999"/>
+						<leftPen lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineColor="#999999"/>
+						<rightPen lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{sumacantidadt}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="497" y="1" width="25" height="13"/>
+					<box rightPadding="1">
+						<pen lineColor="#999999"/>
+						<topPen lineColor="#999999"/>
+						<leftPen lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineColor="#999999"/>
+						<rightPen lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{avgarreglot}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="522" y="1" width="25" height="13"/>
+					<box rightPadding="1">
+						<pen lineColor="#999999"/>
+						<topPen lineColor="#999999"/>
+						<leftPen lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineColor="#999999"/>
+						<rightPen lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{avgvelocidadt}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="547" y="1" width="25" height="13"/>
+					<box rightPadding="1">
+						<pen lineColor="#999999"/>
+						<topPen lineColor="#999999"/>
+						<leftPen lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineColor="#999999"/>
+						<rightPen lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[""+(($V{sumaarreglot}.intValue()+$V{sumatiempot}.intValue())-(($V{sumaarreglot}.intValue()+$V{sumatiempot}.intValue())%60))/60+":"+($V{sumaarreglot}.intValue()+$V{sumatiempot}.intValue())%60]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="fechaprogram">
+		<groupExpression><![CDATA[$F{fechaprogram}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<textField pattern="dd-MMM-yyyy">
+					<reportElement style="SubTitle" x="2" y="4" width="169" height="20" forecolor="#005782"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{fechaprogram}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" mode="Opaque" x="497" y="0" width="25" height="13" forecolor="#006699" backcolor="#EFF0F1"/>
+					<box rightPadding="1">
+						<pen lineStyle="Dotted"/>
+						<topPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{avgarreglo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" mode="Opaque" x="393" y="0" width="35" height="13" forecolor="#006699" backcolor="#EFF0F1"/>
+					<box rightPadding="1">
+						<pen lineStyle="Dotted"/>
+						<topPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{sumacantidad}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" mode="Opaque" x="522" y="0" width="25" height="13" forecolor="#006699" backcolor="#EFF0F1"/>
+					<box rightPadding="1">
+						<pen lineStyle="Dotted"/>
+						<topPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{avgvelocidad}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement style="Detail" mode="Opaque" x="547" y="0" width="25" height="13" forecolor="#006699" backcolor="#EFF0F1"/>
+					<box rightPadding="1">
+						<pen lineStyle="Dotted"/>
+						<topPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[""+(($V{sumaarreglo}.intValue()+$V{sumatiempo}.intValue())-(($V{sumaarreglo}.intValue()+$V{sumatiempo}.intValue())%60))/60+":"+($V{sumaarreglo}.intValue()+$V{sumatiempo}.intValue())%60]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Right" isUsingCache="false">
+				<reportElement x="412" y="4" width="160" height="45"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logoempresa}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="4" width="412" height="45" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Programa de Producción]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="1" y="49" width="571" height="16" forecolor="#666666"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{subtitulo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="2" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="66" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="0" y="0" width="50" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[OP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="50" y="0" width="145" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="195" y="0" width="50" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Clave Art.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="245" y="0" width="148" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Articulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="393" y="0" width="35" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Progam]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="497" y="0" width="25" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Arre.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="522" y="0" width="25" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Vel.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="547" y="0" width="25" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Hrs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="428" y="0" width="35" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Corrug]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="463" y="0" width="35" height="15" forecolor="#006699" backcolor="#D3D8D9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Conve]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="572" height="15"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="0" y="0" width="50" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{op}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="Detail" x="50" y="0" width="145" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement style="Detail" x="195" y="0" width="50" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{clavearticulo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="245" y="0" width="148" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{articulo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="393" y="0" width="35" height="15"/>
+					<box rightPadding="1">
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{programcantidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="497" y="0" width="25" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{arreglo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="522" y="0" width="25" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{velocidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="547" y="0" width="25" height="15"/>
+					<box>
+						<leftPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+						<rightPen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[""+(($F{arreglo}.intValue()+$F{tiempo}.intValue())-(($F{arreglo}.intValue()+$F{tiempo}.intValue())%60))/60+":"+($F{arreglo}.intValue()+$F{tiempo}.intValue())%60]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="428" y="0" width="35" height="15"/>
+					<box>
+						<leftPen lineStyle="Solid"/>
+						<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{prodcantidadpiezas}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="462" y="0" width="35" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{prodcantidadpiezascon}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="572" height="16" forecolor="#D0B48E" backcolor="#EFF0F1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="551" y="1" width="21" height="15" forecolor="#006699"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="451" y="1" width="100" height="15" forecolor="#006699"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="139" height="15" forecolor="#006699"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="203" y="3" width="147" height="11" forecolor="#666666"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" size="5" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{version}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dotted" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formato_factura_remision" language="groovy" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<style name="Title" isDefault="false" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" isDefault="false" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" isDefault="false" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" isDefault="false" fontName="Arial" fontSize="12"/>
+	<style name="Row" isDefault="false" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style isDefault="false" style="Row" backcolor="#EAF0F2"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logoempresa" class="java.io.InputStream"/>
+	<parameter name="rfcempresa" class="java.io.InputStream"/>
+	<parameter name="subtitulo" class="java.lang.String"/>
+	<parameter name="fechaini" class="java.sql.Timestamp"/>
+	<parameter name="fechafin" class="java.sql.Timestamp"/>
+	<parameter name="version" class="java.lang.String"/>
+	<parameter name="folio_serie" class="java.lang.String"/>
+	<parameter name="folio" class="java.lang.String"/>
+	<parameter name="serie" class="java.lang.String"/>
+	<parameter name="certificado" class="java.lang.String"/>
+	<parameter name="noapro" class="java.lang.String"/>
+	<parameter name="anoapro" class="java.lang.String"/>
+	<parameter name="cadena" class="java.lang.String"/>
+	<parameter name="sello" class="java.lang.String"/>
+	<parameter name="formadepago" class="java.lang.String"/>
+	<parameter name="nc_rnombre" class="java.lang.String"/>
+	<parameter name="nc_rrfc" class="java.lang.String"/>
+	<parameter name="nc_rcalle" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="nc_rnumeroext" class="java.lang.String"/>
+	<parameter name="nc_rnumeroint" class="java.lang.String"/>
+	<parameter name="nc_rcolonia" class="java.lang.String"/>
+	<parameter name="nc_rmunicipio" class="java.lang.String"/>
+	<parameter name="nc_restado" class="java.lang.String"/>
+	<parameter name="nc_rpais" class="java.lang.String"/>
+	<parameter name="nc_rcp" class="java.lang.String"/>
+	<parameter name="nc_rusocfdi" class="java.lang.String"/>
+	<parameter name="nc_rdias" class="java.lang.String"/>
+	<parameter name="rreferencia" class="java.lang.String"/>
+	<parameter name="rlocalidad" class="java.lang.String"/>
+	<parameter name="emunicipio" class="java.lang.String"/>
+	<parameter name="eestado" class="java.lang.String"/>
+	<parameter name="epais" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="calle" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="cp" class="java.lang.String"/>
+	<parameter name="colonia" class="java.lang.String"/>
+	<parameter name="municipio" class="java.lang.String"/>
+	<parameter name="estado" class="java.lang.String"/>
+	<parameter name="pais" class="java.lang.String"/>
+	<parameter name="referencia" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="tasas" class="java.lang.String"/>
+	<parameter name="tasasimp" class="java.lang.String"/>
+	<parameter name="tipocfd" class="java.lang.String"/>
+	<parameter name="localidad" class="java.lang.String"/>
+	<parameter name="numeroint" class="java.lang.String"/>
+	<parameter name="telefono" class="java.lang.String"/>
+	<parameter name="fechacreado" class="java.lang.String"/>
+	<parameter name="fechavencido" class="java.lang.String"/>
+	<parameter name="totalfinal" class="java.lang.String"/>
+	<parameter name="cancelafac" class="java.lang.String"/>
+	<parameter name="metodopago" class="java.lang.String"/>
+	<parameter name="regimenfiscal" class="java.lang.String"/>
+	<parameter name="ctapago" class="java.lang.String"/>
+	<parameter name="lugarexpedicion" class="java.lang.String"/>
+	<parameter name="uuid" class="java.lang.String"/>
+	<parameter name="fechatimbrado" class="java.lang.String"/>
+	<parameter name="sellocfd" class="java.lang.String"/>
+	<parameter name="nocersat" class="java.lang.String"/>
+	<parameter name="sellosat" class="java.lang.String"/>
+	<parameter name="versioncfdi" class="java.lang.String"/>
+	<parameter name="qruuid" class="java.io.InputStream"/>
+	<parameter name="nc_Metodopago" class="java.lang.String"/>
+	<parameter name="nc_Clavemetodopago" class="java.lang.String"/>
+	<parameter name="nc_Formapago" class="java.lang.String"/>
+	<parameter name="nc_Claveformapago" class="java.lang.String"/>
+	<parameter name="nc_Usocomprobante" class="java.lang.String"/>
+	<parameter name="nc_Claveusocomprobante" class="java.lang.String"/>
+	<parameter name="numeroext" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     notas_credito_detalle.*,
+     notas_credito."importeletra",
+     notas_credito."observaciones"
+FROM
+     "notas_credito_detalle" notas_credito_detalle INNER JOIN "notas_credito" notas_credito ON notas_credito_detalle."nota_credito_serie" = notas_credito."nota_credito_serie"
+
+
+WHERE
+     notas_credito_detalle.nota_credito_serie = $P{folio_serie};]]>
+	</queryString>
+	<field name="id_notas_credito_detalle" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nota_credito_serie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estatus" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="serie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="factura_serie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="um" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="preciounitario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="remision" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nota_credito" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave_prodserv" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave_unidadmedida" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="uuid_relacionado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave_relacionado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clavearticulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importeletra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observaciones" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band height="608" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="243" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Right" isUsingCache="false">
+				<reportElement x="2" y="0" width="136" height="46"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logoempresa}]]></imageExpression>
+			</image>
+			<rectangle radius="0">
+				<reportElement x="1" y="131" width="350" height="80" forecolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="1" y="124" width="348" height="12" forecolor="#666666" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="5" y="137" width="346" height="15" forecolor="#333333"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nc_rnombre}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="13" y="123" width="88" height="12" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Receptor del CFDI]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="439" y="20" width="132" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{folio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="36" width="86" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Serie:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="439" y="52" width="132" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{certificado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="439" y="36" width="132" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{serie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="20" width="86" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Folio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="52" width="86" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Certificado Digital:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="439" y="68" width="132" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="68" width="86" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="439" y="84" width="132" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{tipocfd}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="84" width="86" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="353" y="139" width="112" height="12" forecolor="#666666" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="357" y="139" width="104" height="12" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Lugar de Expedicion:]]></text>
+			</staticText>
+			<rectangle radius="5">
+				<reportElement x="4" y="217" width="568" height="24" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="1" y="216" width="571" height="26" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="82" y="217" width="40" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[U.M.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="448" y="217" width="60" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P. Unitario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="241" y="217" width="206" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="511" y="217" width="60" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="217" width="40" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="5" y="150" width="346" height="10" forecolor="#333333"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["RFC: "+$P{nc_rrfc}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="5" y="160" width="346" height="10" forecolor="#333333"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nc_rcalle}.toUpperCase()+" "+$P{nc_rnumeroext}.toUpperCase()+" "+$P{nc_rnumeroint}.toUpperCase()+", COL. "+$P{nc_rcolonia}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="5" y="170" width="346" height="10" forecolor="#333333"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nc_rmunicipio}.toUpperCase()+", "+$P{nc_restado}.toUpperCase()+" "+$P{nc_rpais}.toUpperCase()+" C.P.: "+$P{nc_rcp}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="42" y="217" width="40" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="353" y="167" width="112" height="12" forecolor="#666666" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="357" y="166" width="104" height="12" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Documentos Relacionados]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="353" y="115" width="218" height="15" forecolor="#333333"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{uuid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="357" y="0" width="212" height="18" forecolor="#333333"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA DE CREDITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="52" width="196" height="15" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[SKARTON S.A DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="65" width="196" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Avenida Insurgentes sur 1168]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="75" width="196" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Colonia del Valle Delegacion Benito Juarez]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="85" width="196" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Ciudad de Mexico, Mexico C.P. 03200]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="95" width="24" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFC:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="95" width="179" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[SKA100902AK8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="105" width="62" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Regimen Fiscal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="105" width="170" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[601 - General de Ley Personas Morales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="353" y="100" width="217" height="15" forecolor="#333333" backcolor="#EDEFEF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineStyle="Solid"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Folio Fiscal]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="5" y="180" width="342" height="10" forecolor="#333333"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Uso de Comprobante : "+$P{nc_Claveusocomprobante}.toUpperCase()+" - "+$P{nc_Usocomprobante}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="122" y="217" width="45" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clave de Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="154" width="196" height="10" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Tolcayuca, Hidalgo México, C.P. 43860]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="182" width="212" height="12" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[01 - Nota de crédito de los documentos relacionados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="167" y="217" width="74" height="24" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UUID Relacionado]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement mode="Transparent" x="0" y="0" width="572" height="15"/>
+				<textField isStretchWithOverflow="true" pattern="#,##0.###" isBlankWhenNull="true">
+					<reportElement style="Detail" x="2" y="0" width="40" height="15"/>
+					<box rightPadding="1">
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#666666"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cantidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="241" y="0" width="206" height="15"/>
+					<box>
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{descripcion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00000" isBlankWhenNull="true">
+					<reportElement style="Detail" x="447" y="0" width="60" height="15"/>
+					<box rightPadding="2">
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{preciounitario}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" x="511" y="0" width="60" height="15"/>
+					<box rightPadding="2">
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#666666"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{subtotal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="42" y="0" width="40" height="15"/>
+					<box>
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{factura_serie}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="122" y="0" width="45" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{clave_prodserv}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="167" y="0" width="74" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="5"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{uuid_relacionado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="82" y="0" width="40" height="8"/>
+					<box>
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{clave_unidadmedida}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="82" y="8" width="40" height="7"/>
+					<box>
+						<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+						<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#333333"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{um}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="124" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Right" isUsingCache="false">
+				<reportElement x="-1" y="-19" width="120" height="118"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{qruuid}]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement style="Row" mode="Transparent" x="117" y="42" width="455" height="23"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="454" height="23"/>
+					<box topPadding="2" leftPadding="2" rightPadding="2">
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<leftPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<rightPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Arial" size="6" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{sellosat}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="1" y="112" width="569" height="12" forecolor="#D0B48E" backcolor="#EFF0F1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="549" y="0" width="20" height="12" forecolor="#006699"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="450" y="0" width="100" height="12" forecolor="#006699"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="229" y="0" width="65" height="10"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CFDI 3.3]]></text>
+				</staticText>
+			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="117" y="74" width="453" height="13" forecolor="#666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="8" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Este documento es una representación impresa de un CFDI"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="0" y="86" width="572" height="27" forecolor="#000000"/>
+				<box topPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Arial" size="5" isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Por este pagaré me (nos) obligo (amos) incondicionalmente y solícitamente pagar a la orden de: "+$P{nombre}+" el día "+$P{fechavencido}+" la cantidad de: "+$P{totalfinal}+" "+$F{importeletra}+" correspondiente al importe de la mercancia que recibí (imos) a mi (nuestra) entera satisfacción y que pagaremos en su domicilio ubicado en "+$P{calle}+" "+$P{numeroext}+", COL. "+$P{colonia}+" "+$P{municipio}+", "+$P{estado}+" "+$P{pais}+". Este documento constituye un pagare mercantil y está regido por la ley de titulos y operaciones de credito, en el caso de que no se pague en la fecha establecida en este documento, me (nos) obligo (amos) a pagar por concepto de interés moratorio la tasa mensual de 3% sin que esto se entienda como prorrogado el plazo, la firma puesta en cualquier lugar de este documento se considerará como de aceptación."+$P{emunicipio}+" "+$P{eestado}+" A "+$P{fechacreado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="349" y="65" width="222" height="13" forecolor="#666666"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="7" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Fecha y hora de certificación: "+$P{fechatimbrado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="118" y="65" width="222" height="13" forecolor="#666666"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="7" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["No de Serie del Certificado del SAT: "+$P{nocersat}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement style="Row" mode="Transparent" x="117" y="9" width="455" height="23"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="454" height="23"/>
+					<box topPadding="2" leftPadding="2" rightPadding="2">
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<leftPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<rightPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Arial" size="6" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{sellocfd}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement mode="Transparent" x="126" y="0" width="107" height="9" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sello digital del CFDI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="126" y="34" width="107" height="9" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sello del SAT]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="172" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Transparent" x="2" y="139" width="569" height="32"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="567" height="32"/>
+					<box topPadding="7" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineColor="#999999"/>
+						<topPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<leftPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<bottomPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+						<rightPen lineWidth="0.5" lineStyle="Dashed" lineColor="#666666"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Arial" size="6" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["||"+$P{versioncfdi}+"|"+$P{uuid}+"|"+$P{fechatimbrado}+"|"+$P{sellocfd}+"|"+$P{nocersat}+"||"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="2" y="130" width="265" height="14" forecolor="#666666" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="3" y="130" width="262" height="13" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Cadena original del complemento de certificación digital del SAT:]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement x="1" y="16" width="378" height="61" forecolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="0">
+				<reportElement x="447" y="1" width="124" height="95" forecolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="507" y="1" width="62" height="15"/>
+				<box rightPadding="0">
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{tasasimp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="7" y="23" width="372" height="54"/>
+				<box leftPadding="1">
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement x="2" y="98" width="569" height="16" forecolor="#666666"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="11" y="99" width="560" height="16" forecolor="#333333"/>
+				<box leftPadding="1">
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Importe con letra: "+$F{importeletra}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="Detail" x="441" y="1" width="67" height="15" forecolor="#006699"/>
+				<box rightPadding="1">
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{tasas}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="502" y="115" width="70" height="13" forecolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" markup="none">
+					<font fontName="Arial" size="8" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ctapago}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="7" y="8" width="111" height="13" forecolor="#666666" backcolor="#EFF0F1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="7" y="8" width="107" height="13" forecolor="#333333"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="115" width="250" height="14" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Forma de Pago: "+$P{nc_Claveformapago}+" - "+$P{nc_Formapago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="115" width="250" height="14" forecolor="#333333"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Metodo de Pago: "+$P{nc_Clavemetodopago}+" - "+$P{nc_Metodopago}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="496" y="105" width="73" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Tipo de moneda: MXN]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

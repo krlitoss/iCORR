@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="corr_graf_dias" language="groovy" pageWidth="612" pageHeight="792" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<style name="Title" isDefault="false" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" isDefault="false" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" isDefault="false" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" isDefault="false" fontName="Arial" fontSize="12"/>
+	<style name="Row" isDefault="false" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style isDefault="false" style="Row" backcolor="#EAF0F2"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="logoempresa" class="java.io.InputStream"/>
+	<parameter name="subtitulo" class="java.lang.String"/>
+	<parameter name="fechaini" class="java.sql.Timestamp"/>
+	<parameter name="fechafin" class="java.sql.Timestamp"/>
+	<parameter name="version" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT programa_corr_captura.fechareal,count(programa_corr_captura.fechareal) as cambiosfechas,sum(programa_corr_captura.prodml) as totalml,sum(programa_corr_captura.prodkg) as totalkg,sum(programa_corr_captura.minutosprod) as suma_produccion,sum(programa_corr.anchototal-programa_corr.anchoutil) as trim FROM programa_corr_captura LEFT JOIN programa_corr ON programa_corr_captura.id_programa_corr=programa_corr.id_programa_corr WHERE ((programa_corr_captura.fechareal>=$P{fechaini} AND programa_corr_captura.fechareal<=$P{fechafin}) AND programa_corr_captura.estatus<>'Can') GROUP BY programa_corr_captura.fechareal ORDER BY programa_corr_captura.fechareal]]>
+	</queryString>
+	<field name="fechareal" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cambiosfechas" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalml" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalkg" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="suma_produccion" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="trim" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="kg" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalkg}]]></variableExpression>
+	</variable>
+	<variable name="ml" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalml}]]></variableExpression>
+	</variable>
+	<variable name="cambios" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{cambiosfechas}]]></variableExpression>
+	</variable>
+	<variable name="tiempo_prod" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{suma_produccion}]]></variableExpression>
+	</variable>
+	<variable name="trim" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{trim}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Right" isUsingCache="false">
+				<reportElement x="412" y="4" width="160" height="45"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logoempresa}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="4" width="412" height="45" forecolor="#333333"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Producción Corrugadora]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="1" y="49" width="571" height="16" forecolor="#666666"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{subtitulo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="2" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="66" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#006699"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="2" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="1" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="2" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="572" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="572" height="16" forecolor="#D0B48E" backcolor="#EFF0F1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="551" y="1" width="21" height="15" forecolor="#006699"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="451" y="1" width="100" height="15" forecolor="#006699"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="139" height="15" forecolor="#006699"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="203" y="3" width="147" height="11" forecolor="#666666"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" size="5" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{version}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="610" splitType="Stretch">
+			<rectangle radius="8">
+				<reportElement x="0" y="15" width="118" height="105" forecolor="#666666"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="2" y="50" width="55" height="15" forecolor="#006699"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[ML:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="2" y="66" width="55" height="15" forecolor="#006699"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[KG:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="56" y="50" width="60" height="15"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ml}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="56" y="66" width="60" height="15"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{kg}]]></textFieldExpression>
+			</textField>
+			<lineChart>
+				<chart isShowLegend="true" customizerClass="grafica_render_line">
+					<reportElement x="131" y="5" width="441" height="180"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					</box>
+					<chartTitle>
+						<font fontName="FreeSans" size="10" isBold="true"/>
+						<titleExpression><![CDATA["PRODUCCIÓN EN NUMERO DE CAMBIOS"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font fontName="FreeSans"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font fontName="FreeSans" size="8" isBold="true"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cambios"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fechareal}.getDate()+"-"+($F{fechareal}.getMonth()+1)+"-"+($F{fechareal}.getYear()+1900)]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cambiosfechas}.intValue()]]></valueExpression>
+						<labelExpression><![CDATA[""+$F{cambiosfechas}.intValue()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-90.0">
+						<seriesColor seriesOrder="0" color="#0099CC"/>
+					</plot>
+					<categoryAxisFormat labelRotation="-90.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="7" isBold="false"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont>
+								<font fontName="Arial"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="8" isBold="true"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="56" y="34" width="60" height="15"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{cambios}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="56" y="82" width="60" height="15"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ml}/$V{tiempo_prod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="2" y="82" width="55" height="15" forecolor="#006699"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Vel. (ml/min):]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.0" isBlankWhenNull="true">
+				<reportElement style="Detail" x="56" y="98" width="60" height="15"/>
+				<box rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{trim}/$V{cambios}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="2" y="98" width="55" height="15" forecolor="#006699"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Trim (cm):]]></text>
+			</staticText>
+			<lineChart>
+				<chart isShowLegend="true" customizerClass="grafica_render_line">
+					<reportElement x="0" y="203" width="572" height="195"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					</box>
+					<chartTitle>
+						<font fontName="FreeSans" size="10" isBold="true"/>
+						<titleExpression><![CDATA["PRODUCCIÓN EN METROS LINEALES"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font fontName="FreeSans"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font fontName="FreeSans" size="8" isBold="true"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["ML"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fechareal}.getDate()+"-"+($F{fechareal}.getMonth()+1)+"-"+($F{fechareal}.getYear()+1900)]]></categoryExpression>
+						<valueExpression><![CDATA[$F{totalml}.intValue()]]></valueExpression>
+						<labelExpression><![CDATA[""+$F{totalml}.intValue()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot isShowShapes="true">
+					<plot labelRotation="-90.0">
+						<seriesColor seriesOrder="0" color="#CC1414"/>
+					</plot>
+					<categoryAxisFormat labelRotation="-90.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="7" isBold="false"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont>
+								<font fontName="Arial"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="8" isBold="true"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<lineChart>
+				<chart isShowLegend="true" customizerClass="grafica_render_line">
+					<reportElement x="0" y="414" width="572" height="195"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					</box>
+					<chartTitle>
+						<font fontName="FreeSans" size="10" isBold="true"/>
+						<titleExpression><![CDATA["PRODUCCIÓN EN KG"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font fontName="FreeSans"/>
+					</chartSubtitle>
+					<chartLegend>
+						<font fontName="FreeSans" size="8" isBold="true"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["KG"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fechareal}.getDate()+"-"+($F{fechareal}.getMonth()+1)+"-"+($F{fechareal}.getYear()+1900)]]></categoryExpression>
+						<valueExpression><![CDATA[$F{totalkg}.intValue()]]></valueExpression>
+						<labelExpression><![CDATA[""+$F{totalkg}.intValue()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-90.0">
+						<seriesColor seriesOrder="0" color="#09B109"/>
+					</plot>
+					<categoryAxisFormat labelRotation="-90.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="7" isBold="false"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="false">
+							<labelFont>
+								<font fontName="Arial"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" size="8" isBold="true"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<staticText>
+				<reportElement style="Column header" mode="Opaque" x="2" y="34" width="55" height="15" forecolor="#006699"/>
+				<box leftPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Cambios:]]></text>
+			</staticText>
+			<rectangle radius="9">
+				<reportElement mode="Opaque" x="0" y="5" width="118" height="23" forecolor="#666666" backcolor="#EFF0F1"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="8" y="7" width="104" height="19" forecolor="#666666"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#999999"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[ Datos Relevantes]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

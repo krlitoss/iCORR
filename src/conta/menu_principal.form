@@ -1,0 +1,379 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.7" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="jPopupMenu1" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu2">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="jPopupMenu2" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+    </Container>
+    <Container class="javax.swing.JMenuBar" name="jMenuBar2">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="jMenuBar2" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenu20">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jMenu20.text"/>
+            <Property name="name" type="java.lang.String" value="jMenu20" noResource="true"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu21">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jMenu21.text"/>
+            <Property name="name" type="java.lang.String" value="jMenu21" noResource="true"/>
+          </Properties>
+        </Menu>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+      <Color id="Cursor Por defecto"/>
+    </Property>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jToolBar1" alignment="0" pref="723" max="32767" attributes="1"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jXCollapsiblePane1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelprincipal" pref="512" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jToolBar1" min="-2" pref="32" max="-2" attributes="1"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="panelprincipal" pref="349" max="32767" attributes="1"/>
+                  <Component id="jXCollapsiblePane1" alignment="0" pref="349" max="32767" attributes="1"/>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JDesktopPane" name="panelprincipal">
+      <Properties>
+        <Property name="background" type="java.awt.Color" resourceKey="panelprincipal.background"/>
+        <Property name="foreground" type="java.awt.Color" resourceKey="panelprincipal.foreground"/>
+        <Property name="autoscrolls" type="boolean" value="true"/>
+        <Property name="name" type="java.lang.String" value="panelprincipal" noResource="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new conta.JPanelFondo()"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout"/>
+    </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
+        <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
+      </Properties>
+    </Component>
+    <Container class="org.jdesktop.swingx.JXCollapsiblePane" name="jXCollapsiblePane1">
+      <Properties>
+        <Property name="direction" type="org.jdesktop.swingx.JXCollapsiblePane$Direction" editor="org.jdesktop.swingx.JXCollapsiblePaneBeanInfo$DirectionPropertyEditor">
+          <SerializedValue value="-84,-19,0,5,126,114,0,47,111,114,103,46,106,100,101,115,107,116,111,112,46,115,119,105,110,103,120,46,74,88,67,111,108,108,97,112,115,105,98,108,101,80,97,110,101,36,68,105,114,101,99,116,105,111,110,0,0,0,0,0,0,0,0,18,0,0,120,114,0,14,106,97,118,97,46,108,97,110,103,46,69,110,117,109,0,0,0,0,0,0,0,0,18,0,0,120,112,116,0,4,76,69,70,84"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="jXCollapsiblePane1" noResource="true"/>
+      </Properties>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel3">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jPanel3" noResource="true"/>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jPanel2" alignment="0" max="32767" attributes="1"/>
+                  <Component id="jScrollPane3" alignment="0" pref="203" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jScrollPane3" pref="292" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="jPanel2">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder justification="1" title="Buscar">
+                      <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder roundedCorners="true" thickness="0">
+                          <Property name="color" resourceKey="jPanel2.border.border.lineColor"/>
+                        </LineBorder>
+                      </Border>
+                      <Property name="titleX" resourceKey="jPanel2.border.title"/>
+                      <Property name="font" resourceKey="jPanel2.border.titleFont"/>
+                      <Property name="color" resourceKey="jPanel2.border.titleColor"/>
+                    </TitledBorder>
+                  </Border>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="jPanel2.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="jPanel2" noResource="true"/>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="txtbuscar" pref="170" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnbuscararbol" min="-2" max="-2" attributes="1"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnbuscararbol" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtbuscar" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JTextField" name="txtbuscar">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" resourceKey="txtbuscar.background"/>
+                    <Property name="text" type="java.lang.String" resourceKey="txtbuscar.text"/>
+                    <Property name="name" type="java.lang.String" value="txtbuscar" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtbuscarActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtbuscarKeyReleased"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnbuscararbol">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" resourceKey="btnbuscararbol.font"/>
+                    <Property name="icon" type="javax.swing.Icon" resourceKey="btnbuscararbol.icon"/>
+                    <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                      <Insets value="[0, 0, 0, 0]"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="btnbuscararbol" noResource="true"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnbuscararbolActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Menu Principal">
+                      <Property name="titleX" resourceKey="jScrollPane3.border.title"/>
+                      <Property name="font" resourceKey="jScrollPane3.border.titleFont"/>
+                      <Property name="color" resourceKey="jScrollPane3.border.titleColor"/>
+                    </TitledBorder>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="jScrollPane3" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="org.jdesktop.swingx.JXTree" name="arbol1">
+                  <Properties>
+                    <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
+                      <TreeModel code="*&#xa; &lt;html&gt;&lt;b&gt;Configuraci&#xf3;n General&#xa;  &lt;html&gt;&lt;b&gt;Aplicaci&#xf3;n&#xa;   Skin&#xa;  &lt;html&gt;&lt;b&gt;Administraci&#xf3;n de TI&#xa;   Grupos y permisos&#xa;   Usuarios&#xa;   Empresa&#xa;   Logotipo&#xa;   CIF (rfc)&#xa;   &lt;html&gt;&lt;b&gt;CFD&#xa;    Certificado&#xa;    Llave&#xa;    Folios&#xa;    Cancela CFDI&#xa;    SMTP Mail&#xa;   URL Files&#xa;   BackupBD&#xa;   RestaurarBD&#xa;   Pruebas&#xa; &lt;html&gt;&lt;b&gt;Datos Maestros&#xa;  Agenda de contactos&#xa;  Areas de la Empresa&#xa; &lt;html&gt;&lt;b&gt;Gesti&#xf3;n de MRP&#xa;  Requerimiento Papel&#xa;  Requerimiento Tintas&#xa; &lt;html&gt;&lt;b&gt;Compras&#xa;  Proveedores&#xa;  Productos&#xa;  Grupo de Productos&#xa;  Ordenes de Compra&#xa;  &lt;html&gt;&lt;b&gt;Almacen Papel&#xa;   Claves Almacen&#xa;   Entradas Papel&#xa;   Consumos Papel&#xa;   Inventario Papel&#xa;   Inventario por Almacen&#xa;   Inventario Papel Detalle&#xa;   &lt;html&gt;&lt;b&gt;Reportes&#xa;    Entradas Proveedor&#xa;    Entradas Tipo de Papel&#xa;    Consumos Proveedor&#xa;    Consumos Tipo de Papel&#xa; &lt;html&gt;&lt;b&gt;Gesti&#xf3;n de Producci&#xf3;n&#xa;  Parametros&#xa;  M&#xe1;quinas&#xa;  Resistencias&#xa;  Operadores&#xa;  Claves de Paro&#xa;  Suajes&#xa;  Grabados&#xa;  Consulta OP&#xa;  &lt;html&gt;&lt;b&gt;Planeacion&#xa;   Detalle Pendientes x entregar&#xa;   Herr. Programacion Corrugadora&#xa;   CM_Herr. Programacion Corrugadora&#xa;  Programar Corrugadora&#xa;  Corrugadora Autorizar&#xa;  Papeleta&#xa;  Papeleta Producto Terminado&#xa;  CORRFLEX&#xa;  &lt;html&gt;&lt;b&gt;Registrar producci&#xf3;n&#xa;   Corrugadora&#xa;   Conversi&#xf3;n&#xa;  &lt;html&gt;&lt;b&gt;Inventarios&#xa;   Entradas Inventario Corrugadora&#xa;   Inventario Corrugadora&#xa;   Entradas Inventario Conversion&#xa;   Salidas Inventario Conversion&#xa;   Inventario Conversion&#xa;  &lt;html&gt;&lt;b&gt;Calidad&#xa;   Mullen,ECT,BCT&#xa;   Defectos de Calidad&#xa;   Almacen Cuarentena&#xa;   Certificados&#xa;  &lt;html&gt;&lt;b&gt;Reportes&#xa;   Gr&#xe1;fica Corrugadora&#xa;   Graficas Producci&#xf3;n&#xa;  &lt;html&gt;&lt;b&gt;Mantenimiento&#xa;   Mtto. Diario&#xa; &lt;html&gt;&lt;b&gt;Ventas&#xa;  Vendedores&#xa;  Cotizaciones&#xa;  Solicitud de muestras&#xa;  Articulos&#xa;  Clientes&#xa;  Lugares de Entrega&#xa;  Bitacora Clientes&#xa;  Pedidos&#xa;  Consulta OP&#xa;  OPs Pendientes&#xa;  Estatus OPs&#xa;  &lt;html&gt;&lt;b&gt;Embarques&#xa;   Transportistas&#xa;   Entrada almacen PT&#xa;   Almacen PT&#xa;   Codigo de Barras&#xa;   Certificados&#xa;   Remisiones&#xa;   Remisiones por Facturar&#xa;   Devoluciones&#xa;  &lt;html&gt;&lt;b&gt;Reportes&#xa;   Detalles Remisionado-Clientes&#xa;   Remisionado Acumulado Articulos&#xa;   Remisionado Clientes&#xa;   Remisionado Grafica Clientes&#xa;   Remisionado Grafica Mes&#xa; &lt;html&gt;&lt;b&gt;Gesti&#xf3;n Financiera&#xa;  Monedas&#xa;  Lugares Emisi&#xf3;n&#xa;  Esquema de Impuestos&#xa;  Cuentas Bancarias&#xa;  Conceptos Movimientos bancarios&#xa;  Remisiones por Facturar&#xa;  Facturas&#xa;  &lt;html&gt;&lt;b&gt;Cuentas x Cobrar&#xa;   Contrarecibos&#xa;   Saldos y Programa de cobros&#xa;   Ingresos Anticipados&#xa;   Ingresos&#xa;   Auxiliar Cliente&#xa;   Facturas Pagadas&#xa;  Notas de Credito&#xa;  Reporte SAT&#xa;  &lt;html&gt;&lt;b&gt;Polizas Modelo&#xa;   PM Ventas&#xa;   PM Ingresos&#xa;  &lt;html&gt;&lt;b&gt;Costos&#xa;   Costos Detalle-Procesos&#xa;  &lt;html&gt;&lt;b&gt;Caja Chica&#xa;   Remisiones Externas&#xa;   Movimientos Caja&#xa; &lt;html&gt;&lt;b&gt;Varios&#xa;  Calculadora&#xa;  Articulos Corrugadora&#xa;  Pruebas Corr&#xa;  Planeacion CM&#xa; &lt;html&gt;&lt;b&gt;Reportes&#xa;  R M2 Producidos&#xa;  R Combinaciones promedio de papel&#xa;  R Laminas Fabricadas Corrugadora&#xa; &lt;html&gt;&lt;b&gt;Interfaz SAE&#xa;  Importar Materia Prima&#xa;  Importar Remisiones Facturadas"/>
+                    </Property>
+                    <Property name="closedIcon" type="javax.swing.Icon" resourceKey="arbol1.closedIcon"/>
+                    <Property name="collapsedIcon" type="javax.swing.Icon" resourceKey="arbol1.collapsedIcon"/>
+                    <Property name="expandedIcon" type="javax.swing.Icon" resourceKey="arbol1.expandedIcon"/>
+                    <Property name="leafIcon" type="javax.swing.Icon" resourceKey="arbol1.leafIcon"/>
+                    <Property name="openIcon" type="javax.swing.Icon" resourceKey="arbol1.openIcon"/>
+                    <Property name="rowHeight" type="int" value="17"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="arbol1MouseClicked"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="arbol1MousePressed"/>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="arbol1ValueChanged"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JToolBar" name="jToolBar1">
+      <Properties>
+        <Property name="floatable" type="boolean" value="false"/>
+        <Property name="rollover" type="boolean" value="true"/>
+        <Property name="alignmentY" type="float" value="0.478264"/>
+        <Property name="name" type="java.lang.String" value="jToolBar1" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="jButton1.toolTipText"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[2, 0, 2, 0]"/>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[70, 19]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[70, 19]"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="jButton1" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[70, 19]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Container class="javax.swing.JToolBar" name="BarraUsuario">
+          <Properties>
+            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="name" type="java.lang.String" value="BarraUsuario" noResource="true"/>
+          </Properties>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="usuario">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" resourceKey="usuario.foreground"/>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="usuario.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="usuario.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="usuario.toolTipText"/>
+                <Property name="debugGraphicsOptions" type="int" value="-1"/>
+                <Property name="name" type="java.lang.String" value="usuario" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JToolBar" name="BarraFecha">
+          <Properties>
+            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="name" type="java.lang.String" value="BarraFecha" noResource="true"/>
+          </Properties>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="fecha">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" resourceKey="fecha.foreground"/>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="fecha.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="fecha.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="fecha.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="fecha" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JToolBar" name="BarraPeriodo">
+          <Properties>
+            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="name" type="java.lang.String" value="BarraPeriodo" noResource="true"/>
+          </Properties>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="perio">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" resourceKey="perio.foreground"/>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="perio.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="perio.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="perio.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="perio" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="perioMouseClicked"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JToolBar" name="BarraBD">
+          <Properties>
+            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="name" type="java.lang.String" value="BarraBD" noResource="true"/>
+          </Properties>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lbbd">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" resourceKey="lbbd.icon"/>
+                <Property name="text" type="java.lang.String" resourceKey="lbbd.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="lbbd.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="lbbd" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
